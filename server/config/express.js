@@ -17,6 +17,8 @@ import lusca from 'lusca';
 import config from './environment';
 import session from 'express-session';
 
+
+
 export default function(app) {
   var env = app.get('env');
 
@@ -27,7 +29,7 @@ export default function(app) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(methodOverride());
-  app.use(cookieParser());
+  app.use(cookieParser('runningwolf.io-SECRET'));
 
   // Persist sessions with mongoStore / sequelizeStore
   // We need to enable sessions for passport-twitter because it's an
@@ -35,7 +37,12 @@ export default function(app) {
   app.use(session({
     secret: config.secrets.session,
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    cookie :{
+      path:'/'
+      //,domain:'.localhost'
+      ,maxAge:1000 * 60 * 24 //24 hours
+    }
   }));
 
   /**
@@ -61,7 +68,8 @@ export default function(app) {
 
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
-    app.use(express.static(app.get('appPath')));
+    app.use('/bower_components',express.static(app.get('appPath')+'/bower_components'));
+    app.use('/app',express.static(app.get('appPath')+'/app'));
     app.use(morgan('dev'));
   }
 
@@ -71,7 +79,10 @@ export default function(app) {
 
   if ('development' === env || 'test' === env) {
     app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(app.get('appPath')));
+    console.log("setting static path:");
+    console.log(app.get('appPath')+'/bower_components/');
+    app.use('/bower_components',express.static(app.get('appPath')+'/bower_components'));
+    app.use('/app',express.static(app.get('appPath')+'/app'));
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }

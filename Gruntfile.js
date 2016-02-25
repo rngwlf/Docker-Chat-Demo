@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     buildcontrol: 'grunt-build-control',
-    istanbul_check_coverage: 'grunt-mocha-istanbul',
+    //istanbul_check_coverage: 'grunt-mocha-istanbul',
     ngconstant: 'grunt-ng-constant'
   });
 
@@ -37,7 +37,7 @@ module.exports = function (grunt) {
     },
     express: {
       options: {
-        port: process.env.PORT || 9000
+        port: process.env.PORT || 8080
       },
       dev: {
         options: {
@@ -76,10 +76,12 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.client %>/{app,components}/**/*.css'],
         tasks: ['injector:css']
       },
+      /*
       mochaTest: {
-        files: ['<%= yeoman.server %>/**/*.{spec,integration}.js'],
+        files: ['<%= yeoman.server %>*.{spec,integration}.js'],
         tasks: ['env:test', 'mochaTest']
       },
+      */
       jsTest: {
         files: ['<%= yeoman.client %>/{app,components}/**/*.{spec,mock}.js'],
         tasks: ['newer:jshint:all', 'wiredep:test', 'karma']
@@ -197,7 +199,7 @@ module.exports = function (grunt) {
         options: {
           nodeArgs: ['--debug-brk'],
           env: {
-            PORT: process.env.PORT || 9000
+            PORT: process.env.PORT || 8080
           },
           callback: function (nodemon) {
             nodemon.on('log', function (event) {
@@ -226,13 +228,8 @@ module.exports = function (grunt) {
       client: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-      },
-      /*
-      test: {
-        src: './karma.conf.js',
-        devDependencies: true
       }
-      */
+      
     },
 
     // Renames files for browser caching purposes
@@ -440,78 +437,8 @@ module.exports = function (grunt) {
       ]
     },
 
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    },
 
-    mochaTest: {
-      options: {
-        reporter: 'spec',
-        require: 'mocha.conf.js',
-        timeout: 5000 // set default mocha spec timeout
-      },
-      unit: {
-        src: ['<%= yeoman.server %>/**/*.spec.js']
-      },
-      integration: {
-        src: ['<%= yeoman.server %>/**/*.integration.js']
-      }
-    },
 
-    mocha_istanbul: {
-      unit: {
-        options: {
-          excludes: ['**/*.{spec,mock,integration}.js'],
-          reporter: 'spec',
-          require: ['mocha.conf.js'],
-          mask: '**/*.spec.js',
-          coverageFolder: 'coverage/server/unit'
-        },
-        src: '<%= yeoman.server %>'
-      },
-      integration: {
-        options: {
-          excludes: ['**/*.{spec,mock,integration}.js'],
-          reporter: 'spec',
-          require: ['mocha.conf.js'],
-          mask: '**/*.integration.js',
-          coverageFolder: 'coverage/server/integration'
-        },
-        src: '<%= yeoman.server %>'
-      }
-    },
-
-    istanbul_check_coverage: {
-      default: {
-        options: {
-          coverageFolder: 'coverage/**',
-          check: {
-            lines: 80,
-            statements: 80,
-            branches: 80,
-            functions: 80
-          }
-        }
-      }
-    },
-/*
-    protractor: {
-      options: {
-        configFile: 'protractor.conf.js'
-      },
-      chrome: {
-        options: {
-          args: {
-            browser: 'chrome'
-          }
-        }
-      }
-    },
-    */
 
     env: {
       test: {
@@ -663,8 +590,8 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'env:all',
         'env:test',
-        'mochaTest:unit',
-        'mochaTest:integration'
+//        'mochaTest:unit',
+ //       'mochaTest:integration'
       ]);
     }
 
@@ -711,6 +638,7 @@ module.exports = function (grunt) {
 
     else if (target === 'coverage') {
 
+/*
       if (option === 'unit') {
         return grunt.task.run([
           'env:all',
@@ -741,6 +669,7 @@ module.exports = function (grunt) {
           'istanbul_check_coverage'
         ]);
       }
+      */
 
     }
 
