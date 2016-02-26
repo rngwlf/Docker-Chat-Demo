@@ -21,6 +21,7 @@
     "morgan": "~1.6.1",
     "serve-favicon": "^2.3.0",
     "grunt": "~0.4.5"
+    "bower":"*"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.0",
@@ -66,7 +67,8 @@
     "karma-babel-preprocessor": "^5.2.1",
     "requirejs": "~2.1.11",
     "proxyquire": "^1.0.1",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "bower":"*"
   },
   "engines": {
     "node": "^4.2.3",
